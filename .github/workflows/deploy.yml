@@ -15,10 +15,11 @@ jobs:
         run: |
           git fetch origin main
           git reset --hard origin/main
-      - name: CPU status
+      - name: NewMan Test
         working-directory: /home/zaid2002/QA-Training-Project
-        run: w
+        run: newman run apitest.json
 
       - name: Ram status
         working-directory: /home/zaid2002/QA-Training-Project
+
         run: free -h
