@@ -17,10 +17,11 @@ jobs:
           git reset --hard origin/main
       - name: NewMan Test
         working-directory: /home/zaid2002/QA-Training-Project
-        run: newman run apitest.json -e DummyJSON Env.postman_environment.json
+        run: newman run apitest.json -e ENV.json
 
       - name: Ram status
         working-directory: /home/zaid2002/QA-Training-Project
 
         run: free -h
+
 
