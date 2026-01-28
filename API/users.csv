@@ -1,0 +1,7 @@
+username,password,expected_status
+emilys,emilyspass,200
+michaelw,michaelwpass,200
+sophiab,sophiabpass,200
+jamesd,jamesdpass,200
+emmaj,emmajpass,200
+wronguser,wrongpass,400
