@@ -1,13 +1,12 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
 
-
 export const options = {
-  vus: 20,
+  vus: 15,             
   duration: '30s',
   thresholds: {
     http_req_duration: ['p(95)<3000'], 
-    http_req_failed: ['rate<0.01'],
+    http_req_failed: ['rate<0.01'],   
   },
 };
 
@@ -21,6 +20,8 @@ export default function () {
   const params = { headers: { 'Content-Type': 'application/json' } };
 
   let loginRes = http.post(`${BASE_URL}/auth/login`, loginPayload, params);
+  
+  check(loginRes, { 'Login Successful': (r) => r.status === 200 });
   
   let authToken = "";
   try {

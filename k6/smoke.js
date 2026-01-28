@@ -22,6 +22,8 @@ export default function () {
 
   let loginRes = http.post(`${BASE_URL}/auth/login`, loginPayload, params);
   
+  check(loginRes, { 'status is 200': (r) => r.status === 200 });
+  
   
   let authToken = loginRes.json('accessToken');
   
