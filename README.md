@@ -44,7 +44,7 @@ I ran a load test on the DummyJSON API to check stability.
 * **Script:** `load.js`
 * **Command:** `k6 run load.js`
 * **Configuration:** 15 Users for 30 seconds.
-* **Folder:** k6.
+* **Folder:** API/K6.
 
 **Test Results:**
 * **Errors:** 0.00% (Passed).
@@ -68,3 +68,4 @@ I ran a load test on the DummyJSON API to check stability.
 
 
 ---
+
