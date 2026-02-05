@@ -52,7 +52,7 @@ I ran a load test on the DummyJSON API to check stability.
 * **Status:** The API handled the load successfully.
 
 ### 7 UI Automation
-* **Folder:** Root/SauceDemo Selenium automation`
+* **Folder:** Root/SauceDemo Selenium automation
 * Contains Selenium/Cypress scripts for Login and Checkout scenarios.
 
 ### 8 CI/CD (GitHub Actions)
