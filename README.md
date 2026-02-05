@@ -62,7 +62,7 @@ I ran a load test on the DummyJSON API to check stability.
 ---
 
 ## How to Run the Project
-1. Clone the repo: `git clone <repo-url>`
+1. Clone the repo: https://github.com/ZaidAlqaryouti2002/QA-Training-Project
 2. Install dependencies (for k6 or Newman).
 3. Run the scripts using the commands listed above.
 
