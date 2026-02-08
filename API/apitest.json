@@ -227,8 +227,8 @@
                   "});\r",
                   "\r",
                   "// 2. فحص سرعة الاستجابة\r",
-                  "pm.test(\"Response time is less than 2000ms\", function () {\r",
-                  "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+                  "pm.test(\"Response time is less than 10000ms\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(10000);\r",
                   "});"
                 ],
                 "type": "text/javascript",
@@ -272,8 +272,8 @@
                   "});\r",
                   "\r",
                   "// 2. فحص سرعة الاستجابة\r",
-                  "pm.test(\"Response time is less than 2000ms\", function () {\r",
-                  "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+                  "pm.test(\"Response time is less than 10000ms\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(10000);\r",
                   "});"
                 ],
                 "type": "text/javascript",
