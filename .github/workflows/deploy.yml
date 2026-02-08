@@ -19,7 +19,7 @@ jobs:
       - name: NewMan Test
         working-directory: /home/zaid2002/QA-Training-Project/API
         run: |
-          newman run apitest.json -e env.json -d users.csv -n 5 -r cli,htmlextra
+          newman run apitest.json -e env.json -d users.csv -n 5 -r cli,htmlextra -x
 
       - name: Ram status
         run: free -h
