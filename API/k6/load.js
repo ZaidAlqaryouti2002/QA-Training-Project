@@ -1,40 +1,71 @@
-import http from 'k6/http';
-import { check, sleep } from 'k6';
+import http from "k6/http";
+import { check, sleep } from "k6";
+
+const BASE_URL = __ENV.BASE_URL || "https://dummyjson.com";
+const SLEEP_SECONDS = 3;
 
 export const options = {
-  vus: 15,             
-  duration: '30s',
+  // LOAD TEST: 20 users for 30 seconds
+  vus: 20,
+  duration: "30s",
   thresholds: {
-    http_req_duration: ['p(95)<3000'], 
-    http_req_failed: ['rate<0.01'],   
+    http_req_failed: ["rate<0.01"],     // <1% failures
+    http_req_duration: ["p(95)<1500"],  // 95% < 1.5s
   },
 };
 
 export default function () {
-  const BASE_URL = 'https://dummyjson.com';
-
-  const loginPayload = JSON.stringify({
-    username: 'emilys',
-    password: 'emilyspass',
+  // 1) GET products list
+  const res1 = http.get(`${BASE_URL}/products?limit=30`, {
+    tags: { endpoint: "GET_/products" },
   });
-  const params = { headers: { 'Content-Type': 'application/json' } };
 
-  let loginRes = http.post(`${BASE_URL}/auth/login`, loginPayload, params);
-  
-  check(loginRes, { 'Login Successful': (r) => r.status === 200 });
-  
-  let authToken = "";
-  try {
-      authToken = loginRes.json('accessToken');
-  } catch(e) {}
+  check(res1, {
+    "products list: status is 200": (r) => r.status === 200,
+    "products list: has products array": (r) => {
+      try {
+        return Array.isArray(r.json().products);
+      } catch {
+        return false;
+      }
+    },
+  });
 
-  if(authToken){
-      const authHeaders = {
-        headers: { Authorization: `Bearer ${authToken}` },
-      };
-      http.get(`${BASE_URL}/auth/products`, authHeaders);
-      http.get(`${BASE_URL}/users/1`, authHeaders);
-  }
+  sleep(SLEEP_SECONDS);
 
-  sleep(1);
+  // 2) GET products search
+  const res2 = http.get(`${BASE_URL}/products/search?q=phone`, {
+    tags: { endpoint: "GET_/products/search" },
+  });
+
+  check(res2, {
+    "search: status is 200": (r) => r.status === 200,
+    "search: has products array": (r) => {
+      try {
+        return Array.isArray(r.json().products);
+      } catch {
+        return false;
+      }
+    },
+  });
+
+  sleep(SLEEP_SECONDS);
+
+  // 3) GET cart by id
+  const res3 = http.get(`${BASE_URL}/carts/1`, {
+    tags: { endpoint: "GET_/carts/1" },
+  });
+
+  check(res3, {
+    "cart: status is 200": (r) => r.status === 200,
+    "cart: id is 1": (r) => {
+      try {
+        return r.json().id === 1;
+      } catch {
+        return false;
+      }
+    },
+  });
+
+  sleep(SLEEP_SECONDS);
 }

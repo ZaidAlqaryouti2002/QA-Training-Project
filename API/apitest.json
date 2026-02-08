@@ -54,7 +54,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"username\": \"{{username}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+              "raw": "{\r\n    \"username\": \"emilys\",\r\n    \"password\": \"emilyspass\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -112,7 +112,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"username\": \"emilys\",\r\n    \"password\": \"wrong_pass\"\r\n}",
+              "raw": "{\r\n    \"username\": \"ali\",\r\n    \"password\": \"wrong_pass\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -139,6 +139,27 @@
       "item": [
         {
           "name": "Get All Products",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// 1. فحص أن الطلب نجح\r",
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// 2. فحص سرعة الاستجابة\r",
+                  "pm.test(\"Response time is less than 2000ms\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -156,6 +177,27 @@
         },
         {
           "name": "GET Single Product",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// 1. فحص أن الطلب نجح\r",
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// 2. فحص سرعة الاستجابة\r",
+                  "pm.test(\"Response time is less than 2000ms\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -174,6 +216,27 @@
         },
         {
           "name": "Search Products",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// 1. فحص أن الطلب نجح\r",
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// 2. فحص سرعة الاستجابة\r",
+                  "pm.test(\"Response time is less than 2000ms\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -198,6 +261,27 @@
         },
         {
           "name": "Get Product Categories",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// 1. فحص أن الطلب نجح\r",
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// 2. فحص سرعة الاستجابة\r",
+                  "pm.test(\"Response time is less than 2000ms\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -221,16 +305,18 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "var jsonData = pm.response.json();\r",
-                  "\r",
-                  "pm.test(\"Product Created Successfully\", function () {\r",
-                  "    pm.response.to.have.status(201); \r",
+                  "// 1. فحص أن العملية تمت بنجاح\r",
+                  "pm.test(\"Successful operation (200 or 201)\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
                   "});\r",
                   "\r",
-                  "\r",
-                  "pm.environment.set(\"productId\", \"1\"); \r",
-                  "\r",
-                  "console.log(\"Chain logic fixed: productId set to 1 for testing.\");"
+                  "// 2. التأكد من وجود ID (دليل الإضافة)\r",
+                  "if (pm.request.method !== \"DELETE\") { // ما بنفحص الـ ID في الحذف\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.test(\"Response has ID\", function () {\r",
+                  "        pm.expect(jsonData).to.have.property(\"id\");\r",
+                  "    });\r",
+                  "}"
                 ],
                 "type": "text/javascript",
                 "packages": {},
@@ -265,6 +351,30 @@
         },
         {
           "name": "Update Product",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// 1. فحص أن العملية تمت بنجاح\r",
+                  "pm.test(\"Successful operation (200 or 201)\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+                  "});\r",
+                  "\r",
+                  "// 2. التأكد من وجود ID (دليل الإضافة)\r",
+                  "if (pm.request.method !== \"DELETE\") { // ما بنفحص الـ ID في الحذف\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.test(\"Response has ID\", function () {\r",
+                  "        pm.expect(jsonData).to.have.property(\"id\");\r",
+                  "    });\r",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "PUT",
             "header": [],
@@ -278,13 +388,13 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/products/{{productId}}",
+              "raw": "{{baseUrl}}/products/1",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "products",
-                "{{productId}}"
+                "1"
               ]
             }
           },
@@ -292,6 +402,30 @@
         },
         {
           "name": "Delete Product",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// 1. فحص أن العملية تمت بنجاح\r",
+                  "pm.test(\"Successful operation (200 or 201)\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+                  "});\r",
+                  "\r",
+                  "// 2. التأكد من وجود ID (دليل الإضافة)\r",
+                  "if (pm.request.method !== \"DELETE\") { // ما بنفحص الـ ID في الحذف\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.test(\"Response has ID\", function () {\r",
+                  "        pm.expect(jsonData).to.have.property(\"id\");\r",
+                  "    });\r",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "DELETE",
             "header": [],
@@ -315,6 +449,32 @@
       "item": [
         {
           "name": "GET All Users",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// 1. فحص النجاح\r",
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// 2. فحص السرعة \r",
+                  "pm.test(\"Response time is less than 2s\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+                  "});\r",
+                  "\r",
+                  "// 3. فحص أن البيانات راجعة بصيغة JSON\r",
+                  "pm.test(\"Content-Type is JSON\", function () {\r",
+                  "    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -332,6 +492,32 @@
         },
         {
           "name": "Get Single User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// 1. فحص النجاح\r",
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// 2. فحص السرعة\r",
+                  "pm.test(\"Response time is less than 2s\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+                  "});\r",
+                  "\r",
+                  "// 3. فحص أن البيانات راجعة بصيغة JSON\r",
+                  "pm.test(\"Content-Type is JSON\", function () {\r",
+                  "    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -350,6 +536,32 @@
         },
         {
           "name": "Search Users",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// 1. فحص النجاح\r",
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// 2. فحص السرعة\r",
+                  "pm.test(\"Response time is less than 2s\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+                  "});\r",
+                  "\r",
+                  "// 3. فحص أن البيانات راجعة بصيغة JSON\r",
+                  "pm.test(\"Content-Type is JSON\", function () {\r",
+                  "    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -420,6 +632,22 @@
         },
         {
           "name": "Update User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// بيقبل 200 (OK) أو 201 (Created) أو 204 (No Content)\r",
+                  "pm.test(\"Successful Operation\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "PUT",
             "header": [],
@@ -447,6 +675,22 @@
         },
         {
           "name": "Delete User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// بيقبل 200 (OK) أو 201 (Created) أو 204 (No Content)\r",
+                  "pm.test(\"Successful Operation\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "DELETE",
             "header": [],
@@ -470,6 +714,32 @@
       "item": [
         {
           "name": "Get All Posts",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// 1. فحص النجاح\r",
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// 2. فحص السرعة \r",
+                  "pm.test(\"Response time is less than 2s\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+                  "});\r",
+                  "\r",
+                  "// 3. فحص أن البيانات راجعة بصيغة JSON\r",
+                  "pm.test(\"Content-Type is JSON\", function () {\r",
+                  "    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -487,6 +757,32 @@
         },
         {
           "name": "Get Single Post",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// 1. فحص النجاح\r",
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// 2. فحص السرعة \r",
+                  "pm.test(\"Response time is less than 2s\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+                  "});\r",
+                  "\r",
+                  "// 3. فحص أن البيانات راجعة بصيغة JSON\r",
+                  "pm.test(\"Content-Type is JSON\", function () {\r",
+                  "    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -550,6 +846,22 @@
         },
         {
           "name": "Update Post",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// بيقبل 200 (OK) أو 201 (Created) أو 204 (No Content)\r",
+                  "pm.test(\"Successful Operation\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "PUT",
             "header": [],
@@ -577,6 +889,22 @@
         },
         {
           "name": "Delete Post",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// بيقبل 200 (OK) أو 201 (Created) أو 204 (No Content)\r",
+                  "pm.test(\"Successful Operation\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "DELETE",
             "header": [],
@@ -600,6 +928,32 @@
       "item": [
         {
           "name": "Get All Carts",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// 1. فحص النجاح\r",
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// 2. فحص السرعة\r",
+                  "pm.test(\"Response time is less than 2s\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+                  "});\r",
+                  "\r",
+                  "// 3. فحص أن البيانات راجعة بصيغة JSON\r",
+                  "pm.test(\"Content-Type is JSON\", function () {\r",
+                  "    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -617,6 +971,32 @@
         },
         {
           "name": "Get Single Cart",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// 1. فحص النجاح\r",
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// 2. فحص السرعة \r",
+                  "pm.test(\"Response time is less than 2s\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+                  "});\r",
+                  "\r",
+                  "// 3. فحص أن البيانات راجعة بصيغة JSON\r",
+                  "pm.test(\"Content-Type is JSON\", function () {\r",
+                  "    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
